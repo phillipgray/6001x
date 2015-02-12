@@ -1,6 +1,4 @@
-count = 0
-for letter in 'Snow!':
-    print 'Letter # ' + str(count) + ' is ' + str(letter)
-    count += 1
-    break
-print count 
+stuff  = ( [ "iBoy", "iGirl", "iQ", "iC","iPaid","iPad" ], )
+for thing in stuff:
+    if thing == 'iPad':
+       print "Found it"
