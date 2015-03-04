@@ -22,7 +22,7 @@ def hangman(secretWord):
 
     #important variables
     keepPlayingTrigger = True
-    livesNumber = 8
+    livesNumber = 2
     availableLetters = string.ascii_lowercase
     lettersGuessedList = []
 
@@ -31,37 +31,33 @@ def hangman(secretWord):
     print "I am thinking of a word that is %s letters long." % (str(len(secretWord)))
 
     #main game sequence
-    while keepPlayingTrigger:
-      print "-------------"
-      print "You have %s guesses left." % (livesNumber)
-      availableLetters = getAvailableLetters(lettersGuessedList)
-      print "Available letters: %s" % (availableLetters) 
-      currentLetter = raw_input("Please guess a letter: ")
-      if currentLetter in lettersGuessedList:
-        print "Oops! You've already guessed that letter: " + getGuessedWord(secretWord, lettersGuessedList)
-        continue
+    while keepPlayingTrigger == True:
+        print "-------------"
+        print "You have %s guesses left." % (livesNumber)
+        availableLetters = getAvailableLetters(lettersGuessedList)
+        print "Available letters: %s" % (availableLetters) 
+        currentLetter = raw_input("Please guess a letter: ")
+        if currentLetter in lettersGuessedList:
+            print "Oops! You've already guessed that letter: " + getGuessedWord(secretWord, lettersGuessedList)
+            continue
 
-      lettersGuessedList.append(currentLetter)
+        lettersGuessedList.append(currentLetter)
 
-      if lettersGuessedList[-1] not in secretWord:
-        print "Oops! That letter is not in my word: " + getGuessedWord(secretWord, lettersGuessedList)
-        livesNumber -= 1
-        continue
+        if lettersGuessedList[-1] not in secretWord:
+            print "Oops! That letter is not in my word: " + getGuessedWord(secretWord, lettersGuessedList)
+            livesNumber -= 1
 
-      if lettersGuessedList[-1] in secretWord:
-        print "Good guess: " + getGuessedWord(secretWord, lettersGuessedList)
-        continue
-
-      if livesNumber == 0 or isWordGuessed(secretWord, lettersGuessedList) == True:
-        keepPlayingTrigger = False
-        continue
-      
+        if lettersGuessedList[-1] in secretWord:
+            print "Good guess: " + getGuessedWord(secretWord, lettersGuessedList)
+                
+        keepPlayingTrigger = not isWordGuessed(secretWord, lettersGuessedList) and livesNumber != 0
     
 
     # end of game: two options: 1) out of guesses and 2) you guessed the word
     else:
-      print "-------------"
-      if keepPlayingTrigger == False and livesNumber == 0:
-        return "Sorry, you ran out of guesses. The word was %s." % (secretWord)
-      elif keepPlayingTrigger == False and isWordGuessed(secretWord, lettersGuessedList):
-        return "Congratulations, you won!"
+        print "-------------"
+        # print livesNumber
+        if livesNumber == 0:
+            print "Sorry, you ran out of guesses. The word was %s." % (secretWord)
+        elif isWordGuessed(secretWord, lettersGuessedList):
+            print "Congratulations, you won!"

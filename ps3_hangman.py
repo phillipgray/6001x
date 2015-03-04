@@ -150,11 +150,6 @@ def hangman(secretWord):
 
     #main game sequence
     while keepPlayingTrigger == True:
-        
-        # if livesNumber == 0:
-            # keepPlayingTrigger = False
-            # continue
-        
         print "-------------"
         print "You have %s guesses left." % (livesNumber)
         availableLetters = getAvailableLetters(lettersGuessedList)
@@ -172,9 +167,7 @@ def hangman(secretWord):
 
         if lettersGuessedList[-1] in secretWord:
             print "Good guess: " + getGuessedWord(secretWord, lettersGuessedList)
-        
-        # print not isWordGuessed(secretWord, lettersGuessedList)
-        # print livesNumber == 0            
+                
         keepPlayingTrigger = not isWordGuessed(secretWord, lettersGuessedList) and livesNumber != 0
     
 
