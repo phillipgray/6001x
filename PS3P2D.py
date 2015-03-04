@@ -18,36 +18,42 @@ def hangman(secretWord):
 
     Follows the other limitations detailed in the problem write-up.
     '''
-    import string
+        import string
 
-    #important variables
+    # important variables
     keepPlayingTrigger = True
-    livesNumber = 2
+    livesNumber = 8
     availableLetters = string.ascii_lowercase
     lettersGuessedList = []
+    endMessage = ""
 
-    #game beginning sequence
+    # game beginning sequence
     print "Welcome to the game, Hangman!"
     print "I am thinking of a word that is %s letters long." % (str(len(secretWord)))
 
-    #main game sequence
+    # main game sequence
     while keepPlayingTrigger == True:
         print "-------------"
         print "You have %s guesses left." % (livesNumber)
         availableLetters = getAvailableLetters(lettersGuessedList)
-        print "Available letters: %s" % (availableLetters) 
+        print "Available letters: %s" % (availableLetters)
+        
+        # take guessed letter, make it lowercase, and then check to see if it's already guessed 
         currentLetter = raw_input("Please guess a letter: ")
-        if currentLetter in lettersGuessedList:
+        currentLetterLower = currentLetter.lower()
+        if currentLetterLower in lettersGuessedList:
             print "Oops! You've already guessed that letter: " + getGuessedWord(secretWord, lettersGuessedList)
             continue
 
-        lettersGuessedList.append(currentLetter)
+        # add guessed letter to the list of guessed letters
+        lettersGuessedList.append(currentLetterLower)
 
+        # wrong letter guess
         if lettersGuessedList[-1] not in secretWord:
             print "Oops! That letter is not in my word: " + getGuessedWord(secretWord, lettersGuessedList)
             livesNumber -= 1
 
-        if lettersGuessedList[-1] in secretWord:
+        elif lettersGuessedList[-1] in secretWord:
             print "Good guess: " + getGuessedWord(secretWord, lettersGuessedList)
                 
         keepPlayingTrigger = not isWordGuessed(secretWord, lettersGuessedList) and livesNumber != 0
@@ -58,6 +64,7 @@ def hangman(secretWord):
         print "-------------"
         # print livesNumber
         if livesNumber == 0:
-            print "Sorry, you ran out of guesses. The word was %s." % (secretWord)
+            endMessage = "Sorry, you ran out of guesses. The word was %s." % (secretWord)
         elif isWordGuessed(secretWord, lettersGuessedList):
-            print "Congratulations, you won!"
+            endMessage = "Congratulations, you won!"
+    return endMessage
