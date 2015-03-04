@@ -140,7 +140,7 @@ def hangman(secretWord):
 
     #important variables
     keepPlayingTrigger = True
-    livesNumber = 8
+    livesNumber = 2
     availableLetters = string.ascii_lowercase
     lettersGuessedList = []
 
@@ -150,6 +150,11 @@ def hangman(secretWord):
 
     #main game sequence
     while keepPlayingTrigger == True:
+        
+        # if livesNumber == 0:
+            # keepPlayingTrigger = False
+            # continue
+        
         print "-------------"
         print "You have %s guesses left." % (livesNumber)
         availableLetters = getAvailableLetters(lettersGuessedList)
@@ -164,24 +169,23 @@ def hangman(secretWord):
         if lettersGuessedList[-1] not in secretWord:
             print "Oops! That letter is not in my word: " + getGuessedWord(secretWord, lettersGuessedList)
             livesNumber -= 1
-            continue
 
         if lettersGuessedList[-1] in secretWord:
             print "Good guess: " + getGuessedWord(secretWord, lettersGuessedList)
-            continue
-
-        if livesNumber == 0 or isWordGuessed(secretWord, lettersGuessedList) == True:
-            keepPlayingTrigger = False
-            continue
+        
+        # print not isWordGuessed(secretWord, lettersGuessedList)
+        # print livesNumber == 0            
+        keepPlayingTrigger = not isWordGuessed(secretWord, lettersGuessedList) and livesNumber != 0
     
 
     # end of game: two options: 1) out of guesses and 2) you guessed the word
     else:
         print "-------------"
-        if keepPlayingTrigger == False and livesNumber == 0:
-            return "Sorry, you ran out of guesses. The word was %s." % (secretWord)
-        elif keepPlayingTrigger == False and isWordGuessed(secretWord, lettersGuessedList):
-            return "Congratulations, you won!"
+        # print livesNumber
+        if livesNumber == 0:
+            print "Sorry, you ran out of guesses. The word was %s." % (secretWord)
+        elif isWordGuessed(secretWord, lettersGuessedList):
+            print "Congratulations, you won!"
 
 
 
@@ -192,6 +196,6 @@ def hangman(secretWord):
 # and run this file to test! (hint: you might want to pick your own
 # secretWord while you're testing)
 
-secretWord = 'hello'
+secretWord = 'h'
 # secretWord = chooseWord(wordlist).lower()
 hangman(secretWord)
